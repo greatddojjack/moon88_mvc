@@ -1,0 +1,52 @@
+﻿@model IList<moon_album.Models.AlbumInfo>
+@{
+    //ViewBag.Title = "Category";
+}
+<div class="back-to-home btn-circle">
+    <a href="/Admin/CreateAlbum"><span></span><em>新增相簿</em></a>
+</div>
+<div class="container-fluid" id="fh5co-image-grid">
+
+
+    <div class="grid">
+        <div class="grid-sizer"></div>
+        @foreach (var item in @Model)
+        {
+            string LinkString = "";
+            string LinkClass = "";
+            <div class="grid-item item animate-box" data-animate-effect="fadeIn">
+                @if (item.Image_Count > 1)
+                { LinkString = Url.Action("Album", "Home", new { category_id= @Url.RequestContext.RouteData.Values["category_id"],id = item.Album_Id }); }
+                else
+                {
+                    LinkString = String.Format("http://www.moon88.url.tw/upload/{0}/{1}/{2}.jpg", @Url.RequestContext.RouteData.Values["category_id"], @item.Album_Id, @item.Album_Cover_ImgId);
+                    LinkClass = "image-popup";
+                }
+                <a href="@LinkString" class="@LinkClass">
+                    <div class="img-wrap">
+                        <img src="@(String.Format("http://www.moon88.url.tw/upload/{0}/{1}/thumb/{2}.jpg", @Url.RequestContext.RouteData.Values["category_id"],@item.Album_Id,@item.Album_Cover_ImgId))" alt="" class="img-responsive">
+                    </div>
+                    <div class="text-wrap">
+                        <div class="text-inner">
+                            <div>
+                                <h2>@item.Album_Name</h2>
+                                <span>
+                                    @if (item.Image_Count == 1)
+                                    {
+                                        <text>+點擊放大圖片</text>
+                                    }
+                                    else
+                                    {
+                                        <text>+進入觀賞</text>
+                                    }
+
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        }
+    </div>
+</div>
+

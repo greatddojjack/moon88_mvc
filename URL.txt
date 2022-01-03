@@ -1,0 +1,2 @@
+https://www.c-sharpcorner.com/UploadFile/b696c4/creating-image-gallery-in-mvc-5-application631/
+https://www.c-sharpcorner.com/UploadFile/rahul4_saxena/an-image-gallery-application-in-mvc-4/

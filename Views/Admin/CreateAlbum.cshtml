@@ -1,0 +1,68 @@
+﻿@model IList<moon_album.Models.CategoryInfo>
+
+@{
+
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>新增相簿</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Category</label>
+        <div class="col-md-10">
+            <select id="CategoryId" name="CategoryId" class="form-control">
+                @foreach (var item in @Model)
+                {
+                    <option value="@item.Category_Id">@item.Category_Id-@item.Category_Name</option>
+                }
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">AlbumName</label>
+        <div class="col-md-10">
+            @Html.TextBox("AlbumName", "", new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">Row</label>
+        <div class="col-md-4">
+            @Html.TextBox("AlbumRow", "0", new { @class = "form-control", type = "number" })
+        </div>
+        <label class="control-label col-md-2">Column</label>
+        <div class="col-md-4">
+            @Html.TextBox("AlbumColumn", "0", new { @class = "form-control", type = "number" })
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-2">AlbumContent</label>
+        <div class="col-md-10">
+            @Html.TextBox("AlbumContent", "", new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">訊息：</label>
+        <div class="col-md-10">
+            @ViewBag.Status
+        </div>
+    </div>
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "../Home/Index")
+</div>
