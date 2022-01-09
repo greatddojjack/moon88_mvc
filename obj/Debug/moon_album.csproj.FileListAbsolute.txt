@@ -253,3 +253,4 @@ D:\repos\moon88_mvc\obj\Debug\moon_album.csproj.AssemblyReference.cache
 D:\repos\moon88_mvc\obj\Debug\moon_album.csproj.CoreCompileInputs.cache
 D:\repos\moon88_mvc\obj\Debug\moon_album.dll
 D:\repos\moon88_mvc\obj\Debug\moon_album.pdb
+D:\repos\moon88_mvc\obj\Debug\moon_album.csproj.CopyComplete

@@ -69,6 +69,7 @@ namespace moon_album.Controllers
         public ActionResult InsertImage(int category_id)
         {
             var All_Album = objAlbumService.GetAllAlbums(category_id);
+            ViewBag.CategoryName = objAlbumService.GetCategoryName(category_id);
             return View(All_Album);
         }
         [HttpPost]
@@ -82,19 +83,33 @@ namespace moon_album.Controllers
                     HttpPostedFileBase file = Request.Files[i];
                     int fileSize = file.ContentLength;
                     string fileName = file.FileName;
+                    string fileNameWithOutExt = Path.GetFileNameWithoutExtension(fileName);
+                    string fileExt = Path.GetExtension(fileName);
+                    bool isIncludeRowColumn = Convert.ToBoolean(collection["isFilenameIncludeRowColumn"].Split(',')[0]);
+                    string photoRow = "0";
+                    string photoColumn = "0";
+                    if (isIncludeRowColumn)
+                    {
+                        string row_column = fileNameWithOutExt.Split(' ')[0];
+                        photoRow = row_column.Split('-')[0];
+                        photoColumn = row_column.Split('-')[1];
+                        fileNameWithOutExt = fileNameWithOutExt.Split(' ')[1];
+                    }
                     try
                     {
                         // TODO: Add insert logic here
                         int state = 0;
 
-                        state = objAlbumService.CreatePhoto(Convert.ToInt32(collection["AlbumId"]), collection["PhotoName"], fileName, Convert.ToInt32(collection["PhotoRow"]), Convert.ToInt32(collection["PhotoColumn"]));
-                        ViewBag.Status += string.Format("Add {0} Record.\r\n", fileName.ToString());
+                        state = objAlbumService.CreatePhoto(Convert.ToInt32(collection["AlbumId"]), fileNameWithOutExt, fileName, Convert.ToInt32(photoRow), Convert.ToInt32(photoColumn));
+                        ViewBag.Status += string.Format("Add {0}. \r\n", fileName.ToString());
                         if (state > 0)
                         {
+                            int max_id = objAlbumService.GetMaxPhotoID();
+                            string new_file_name = string.Format("{0}{1}", max_id, fileExt);
                             bool folder_exists = Directory.Exists(Server.MapPath(string.Format("~/images/upload/{0}/{1}/", category_id, collection["AlbumId"].ToString())));
                             if (!folder_exists)
                                 Directory.CreateDirectory(Server.MapPath(string.Format("~/images/upload/{0}/{1}/", category_id, collection["AlbumId"].ToString())));
-                            file.SaveAs(Server.MapPath(string.Format("~/images/upload/{0}/{1}/{2}", category_id, collection["AlbumId"].ToString(), fileName)));
+                            file.SaveAs(Server.MapPath(string.Format("~/images/upload/{0}/{1}/{2}", category_id, collection["AlbumId"].ToString(), new_file_name)));
                             //return RedirectToAction(string.Format("../Home/Album/{0}/{1}", category_id, collection["AlbumId"]));
                             
                         }

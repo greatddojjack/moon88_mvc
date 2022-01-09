@@ -143,6 +143,19 @@ namespace moon_album.Models
             return album_name;
         }
 
+        public int GetMaxPhotoID()
+        {
+            int max_id;
+            String connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + HttpContext.Current.Server.MapPath("~/App_Data/moon88.mdb");
+            OleDbConnection con = new OleDbConnection(connectionString);
+            string query = "select max(PhotoID) from PhotAlbum";
+            con.Open();
+            OleDbCommand com = new OleDbCommand(query, con);
+            OleDbDataReader dr = com.ExecuteReader();
+            dr.Read();
+            max_id = Convert.ToInt32(dr[0].ToString());
+            return max_id;
+        }
         public int CreateAlbum(int category_id,string album_name,string album_content,int album_row,int album_column)
         {
             int state = 0;
